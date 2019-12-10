@@ -1,60 +1,57 @@
 #include<cstring>
 #include<iostream>
 #include"classes.h"
+#include"text.h"
 using namespace std;
 ///////////////////////////////////////////////////////////////////////////////
 //FORUM
 
 //Constructor for Forum
-Forum::Forum( char* name,int count){
+Forum::Forum( string name,int count){
   int i;
     forum_title=name;
     thread_count=count;
-    cout<<"Forum with title: " <<forum_title<< "has just been created!"<<endl;
-  Thread thread_array[count];
+
+  thread_array=new Thread*[count];
   for(i=0;i<count;i++){
-    thread_array[i]=Thread("subject","creator",4);
+    thread_array[i]=new Thread("subject","creator",4);
   }
+  cout<<"Forum with title: " <<forum_title<< " has just been created!"<<endl;
   }
 //Destructor for Forum
 Forum::~Forum(){
-  cout<< "Forum with title:"<< forum_title <<"is about to be destroyed!"<<endl;
+  int i;
+  for(i=0;i<thread_count;i++){
+  delete thread_array[i];
+}
+delete []thread_array;
+
+  cout<< "Forum with title: "<< forum_title <<" is about to be destroyed!"<<endl;
 };
 
-  void Forum::set_forum_title(const char* name){
-    name=new char[strlen(name)+1];
-  //  strcpy(forum_title,name);
-  }
 
-  void Forum::set_thread_count(int x){
-      thread_count=x;
-    }
-
-
-  void Forum::print_forum_title(){
-      cout<<"Forum title is:"<<forum_title<<endl;
-    }
-
-
-  void Forum::print_thread_count(){
-    cout<<"Thread count is:"<< thread_count<<endl;
-  }
 
 ///////////////////////////////////////////////////////////////////////////////
 //THREAD
 
 //Constructor for Thread
-Thread::Thread(const char* sub,const char* crea,int post_count){
+Thread::Thread( string sub, string crea,int post_c){
   int i;
+
+  post_count=post_c;
   thread_subject=sub;
   thread_creator=crea;
-  cout<<"Thread with subject:" <<thread_subject <<"has just been created!"<<endl;
   thread_date= new Date(21,12,2019);
-  Post post_array[post_count];//default Constructor called
+   post_array=new Post*[post_count];
  for(i=0;i<post_count;i++){
-    post_array[i]=Post("TITLOS","CREATOR","LMAO THIS IS CONTENT",i);
-    post_array[i].Print_creator();
+    post_array[i]=new Post("TITLOS","CREATOR","LMAO THIS IS CONTENT",i);
+
     }
+    cout<<":::::::::::::::::::::::::::::::::::::"<<endl;
+
+    cout<<"Thread with subject: " <<thread_subject <<" has just been created!"<<endl;
+    cout<<":::::::::::::::::::::::::::::::::::::"<<endl<<endl<<endl;
+
 };
 
 Thread::Thread(){
@@ -65,41 +62,32 @@ Thread::Thread(){
 };
 //Destructor for Thread
   Thread::~Thread(){
-    cout<< "Thread with subject: "<< thread_subject <<"is about to be destroyed!";
+    int i;
+    for(i=0;i<post_count;i++){
+      delete post_array[i];
+    }
+    delete []post_array;
+    cout<< "Thread with subject: "<< thread_subject <<" is about to be destroyed!";
     cout<<endl;
 };
 
-/*
-void Thread::set_thread_subject(char *theme){
-    theme=new char[strlen(nam)+1];
-    strcpy(thread_subject,theme);
-}
 
-char *Thread::get_thread_subject(){
-  return thread_subject;
-}
-
-void Thread::set_thread_creator(char *creator){
-  creator=new char[strlen(creator)+1];
-  strcpy(thread_creator,creator);
-}
-
-char* Thread::get_thread_creator(){
-  return thread_creator;
-}
-*/
 
 ///////////////////////////////////////////////////////////////////////////////
 //POST
 
 //Constructor for Post
-Post::Post(const char* title,const char*creator,const char*content,int idd){
+Post::Post(const string title,const string creator,const string content,int idd){
   id=idd;
   post_title=title;
   post_creator=creator;
-  post_content=content;
+  cout<<"######################################"<<endl;
+  cout<< "Post number: "<<id<<" was created "<<endl;
+
+  post_content=get_rand_text(id);
   post_date=new Date(12,2,2019);
-  cout<< "Post number:"<<id<<"was created "<<endl;
+  cout<<"######################################"<<endl<<endl<<endl;
+
 };
 Post::Post(){
   id=0;
@@ -112,7 +100,7 @@ Post::Post(){
 
 //Destructor for Post
 Post::~Post(){
-  cout<<"Post number:"<<id<<"is about to be deleted"<<endl;
+  cout<<"Post number: "<<id<<" is about to be deleted"<<endl;
 };
 
 void Post::Print_creator(){
