@@ -1,72 +1,64 @@
-//TODO na kano sinartiseis gia print sta post kai thread
-#include<string>
+// TODO na kano sinartiseis gia print sta post kai thread
+#include <string>
 
 using namespace std;
 
-class Date
-{
+class Date {
 public:
-  Date();
-  ~Date();
-  void set(int, int, int);
-  void get(int&, int&, int&);
+    Date();
+    ~Date();
+    void set(int, int, int);
+    void get(int &, int &, int &);
+
 private:
-  int day,month,year;
+    int day, month, year;
 };
 
-
-class Post
-{
+class Post {
 public:
-  Post();
-  Post(string,string, string,int);
-  ~Post();
-  void Print_creator();
-  void Print_title();
-  void Print_content();
+    Post();
+    Post(string, string, string, int);
+    ~Post();
+    void Print_creator();
+    void Print_title();
+    void Print_content();
 
 private:
-  int id;
+    int id;
     string post_title;
     string post_creator;
-  Date post_date;
+    Date post_date;
     string post_content;
-
 };
 
-class Thread
-{
+class Thread {
 public:
-  Thread(string, string,int,int);
-  Thread();
-  ~Thread();
-  void Print_thread_creator();
-  void Print_thread_subject();
-  void Print_thread_date();
-Post **post_array;
+    Thread(string, string, int, int);
+    Thread();
+    ~Thread();
+    void Print_thread_creator();
+    void Print_thread_subject();
+    void Print_thread_date();
+
+    Post **post_array;
 
 private:
-  int post_count;
+    int post_count;
     string thread_subject;
-  Date thread_date;
+    Date thread_date;
     string thread_creator;
-  //Post **post_array;
-
+    // Post **post_array;
 };
 
-
-class Forum
-{
-
-  private:
-    string forum_title ;
+class Forum {
+private:
+    string forum_title;
     int thread_count;
     Thread **thread_array;
-  public:
-    Forum( string name,int count);
+
+public:
+    Forum(string name, int count);
     ~Forum();
-void Print_thread(int);
-void Print_post(int);
-
-
-  };
+    void Print_thread(int);
+    void Print_post(int);
+};
