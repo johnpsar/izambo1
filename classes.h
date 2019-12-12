@@ -1,3 +1,4 @@
+//TODO na kano sinartiseis gia print sta post kai thread
 #include<string>
 
 using namespace std;
@@ -5,9 +6,10 @@ using namespace std;
 class Date
 {
 public:
-  Date(int, int, int);
+  Date();
   ~Date();
-
+  void set(int, int, int);
+  void get(int&, int&, int&);
 private:
   int day,month,year;
 };
@@ -17,15 +19,17 @@ class Post
 {
 public:
   Post();
-  Post( string,string, string,int);
+  Post(string,string, string,int);
   ~Post();
   void Print_creator();
+  void Print_title();
+  void Print_content();
 
 private:
   int id;
     string post_title;
     string post_creator;
-  Date* post_date;
+  Date post_date;
     string post_content;
 
 };
@@ -33,16 +37,20 @@ private:
 class Thread
 {
 public:
-  Thread(string, string,int);
+  Thread(string, string,int,int);
   Thread();
   ~Thread();
+  void Print_thread_creator();
+  void Print_thread_subject();
+  void Print_thread_date();
+Post **post_array;
 
 private:
   int post_count;
     string thread_subject;
-  Date *thread_date;
+  Date thread_date;
     string thread_creator;
-  Post **post_array;
+  //Post **post_array;
 
 };
 
@@ -57,7 +65,8 @@ class Forum
   public:
     Forum( string name,int count);
     ~Forum();
-
+void Print_thread(int);
+void Print_post(int);
 
 
   };
