@@ -4,7 +4,7 @@
 #include"text.h"
 using namespace std;
 
-
+int __id=0;//global id
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -104,6 +104,9 @@ void Thread::Print_thread_date(){
   cout<< "Thread creation Date is : "<< d<<"/"<<m<<"/"<<y<<endl;
 }
 
+int Thread:: get_post_count(){
+  return post_count;
+}
 
 
 
@@ -116,13 +119,13 @@ void Thread::Print_thread_date(){
 Post::Post(const string title,const string creator,const string content,int idd){
   int d,m,y;
   id=idd;
-
-  post_title=get_rand_title(id);
-  post_creator=get_rand_name(id);
+  __id++;
+  post_title=get_rand_title(__id);
+  post_creator=get_rand_name(__id);
   cout<<"######################################"<<endl;
-  cout<< "Post number: "<<id<<" was created "<<endl;
+  cout<< "Post number: "<<__id<<" was created "<<endl;
 
-  post_content=get_rand_text(id);
+  post_content=get_rand_text(__id);
  post_date.set(12,12,2019);
   post_date.get(d,m,y);
   cout<< "Post creator is : "<< post_creator<<endl;
@@ -150,6 +153,9 @@ void Post::Print_title(){
 void Post::Print_content(){
   cout<<post_content<<endl;
 }
+string Post::get_content(){
+  return post_content;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -176,4 +182,133 @@ void Date::get(int& i, int& j, int& k)
 i = month;
 j = day ;
 k = year;
+}
+
+
+///////////////////////////////////////////////////
+//TREE
+
+btree::btree(){
+    treeroot=NULL;
+  }
+
+btree::~btree(){
+   destroy_tree();
+  }
+
+void btree::insert(string creat,string cont,TreeNode *leaf){
+  //TODO an einai =0 tote apla na auksaneii tin lista
+
+    if((creat).compare(leaf->creator)<0){
+      if(leaf->left!=NULL){
+        insert(creat,cont,leaf->left);
+      }
+      else{
+        leaf->left=new TreeNode;
+        leaf->left->creator=creat;
+        leaf->left->left=NULL;
+        leaf->left->right=NULL;
+      }
+    }
+    else if((creat).compare(leaf->creator)>0){
+        if(leaf->right!=NULL){
+          insert(creat,cont,leaf->right);
+        }
+        else{
+          leaf->right=new TreeNode;
+          leaf->right->creator=creat;
+          leaf->right->right=NULL;
+          leaf->right->left=NULL;
+        }
+      }
+    else if((creat).compare(leaf->creator)==0){
+      insert_list(leaf,cont);
+    }
+
+    }
+
+    void btree::insert(string creat,string cont){
+    	if(treeroot != NULL){
+    		insert(creat,cont,treeroot);
+    	}else{
+        ListNode *newlist=new ListNode();
+        newlist->next=NULL;
+        newlist->content=cont;
+    		treeroot = new TreeNode;
+        treeroot->creator=creat;
+    		treeroot->left = NULL;
+    		treeroot->right = NULL;
+        treeroot->headref=newlist;
+
+    	}
+    }
+
+    void btree::inorder_print(TreeNode *leaf){
+  	if(leaf != NULL){
+  		inorder_print(leaf->left);
+  		cout << leaf->creator << " , ";
+  		inorder_print(leaf->right);
+  	}
+  }
+
+
+    void btree::inorder_print(){
+      inorder_print(treeroot);
+      cout<<endl;
+    }
+
+    void btree::destroy_tree(TreeNode *leaf){
+      if (leaf!=NULL){
+        destroy_tree(leaf->left);
+        destroy_tree(leaf->right);
+        delete leaf;
+      }
+    }
+
+    void btree::destroy_tree(){
+      destroy_tree(treeroot);
+      cout<<"\n";
+    }
+
+    void btree::insert_list(TreeNode *leaf,string cont){
+      ListNode* last=leaf->headref;
+      ListNode* temp=new ListNode();
+      temp->content=cont;
+      temp->next=NULL;
+
+      if(leaf->headref==NULL){
+        leaf->headref=temp;
+      }
+      else{
+        while(last->next!=NULL){
+          last=last->next;
+        }
+        last->next=temp;
+      }
+
+    }
+
+    void btree::print_list(TreeNode *leaf){
+      ListNode *temp=leaf->headref;
+    do{
+      cout<<temp->content<<endl;
+      temp=temp->next;
+    }while(temp!=NULL);
+
+}
+  void btree::print_list(){
+    print_list(treeroot);
+  }
+
+  /* Function to merge given two binary trees*/
+TreeNode *btree::MergeTrees(TreeNode * t1, TreeNode * t2)
+{
+  if(t2 != NULL){
+    if(t2->left!=NULL)
+    insert(t2->left->creator,t2->left->headref->content,t1);//inorder_print(leaf->left);
+    cout << "WTF IT WORKS "<< endl;
+    if(t2->right!=NULL)
+    insert(t2->right->creator,t2->right->headref->content,t1);//inorder_print(leaf->right);
+  }
+return t1;
 }
