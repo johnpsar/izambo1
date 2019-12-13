@@ -206,8 +206,11 @@ void btree::insert(string creat,string cont,TreeNode *leaf){
       else{
         leaf->left=new TreeNode;
         leaf->left->creator=creat;
+        leaf->headref = new ListNode();
+        leaf->headref->next = NULL;
         leaf->left->left=NULL;
         leaf->left->right=NULL;
+        insert_list(leaf, cont);
       }
     }
     else if((creat).compare(leaf->creator)>0){
@@ -217,8 +220,12 @@ void btree::insert(string creat,string cont,TreeNode *leaf){
         else{
           leaf->right=new TreeNode;
           leaf->right->creator=creat;
+          leaf->headref = new ListNode();
+          leaf->headref->next = NULL;
           leaf->right->right=NULL;
           leaf->right->left=NULL;
+          insert_list(leaf, cont);
+
         }
       }
     else if((creat).compare(leaf->creator)==0){
@@ -231,6 +238,7 @@ void btree::insert(string creat,string cont,TreeNode *leaf){
     	if(treeroot != NULL){
     		insert(creat,cont,treeroot);
     	}else{
+        cout <<"YEEEEEEEEEEEEEEEEEEEEEEEET" << endl;
         ListNode *newlist=new ListNode();
         newlist->next=NULL;
         newlist->content=cont;
@@ -243,14 +251,37 @@ void btree::insert(string creat,string cont,TreeNode *leaf){
     	}
     }
 
-    void btree::inorder_print(TreeNode *leaf){
-  	if(leaf != NULL){
-  		inorder_print(leaf->left);
-  		cout << leaf->creator << " , ";
-  		inorder_print(leaf->right);
-  	}
-  }
 
+  /*
+    void btree::tree_enhance(){
+
+      tree_enhance(treeroot);
+
+    }
+  /*  void btree::tree_enhance(TreeNode *leaf,int i){//ayto den trexei
+      tree_enhance(leaf);
+    }
+
+
+    void btree::tree_enhance(TreeNode *leaf){
+
+      if(leaf!=NULL){//
+        tree_enhance(leaf->left);
+        insert(leaf->creator,leaf->headref->content,treeroot);
+        tree_enhance(leaf->right);
+
+    }
+  }
+*/
+void btree::inorder_print(TreeNode *leaf){
+if(leaf != NULL){
+  inorder_print(leaf->left);
+  cout << leaf->creator << ": " << endl;
+  print_list(leaf->headref);
+  cout << endl;
+  inorder_print(leaf->right);
+}
+}
 
     void btree::inorder_print(){
       inorder_print(treeroot);
@@ -288,27 +319,34 @@ void btree::insert(string creat,string cont,TreeNode *leaf){
 
     }
 
-    void btree::print_list(TreeNode *leaf){
-      ListNode *temp=leaf->headref;
-    do{
-      cout<<temp->content<<endl;
-      temp=temp->next;
-    }while(temp!=NULL);
+    // void btree::print_list(TreeNode *leaf){
+    //   ListNode *temp=leaf->headref;
+    // do{
+    //   cout<<temp->content<<endl;
+    //   temp=temp->next;
+    // }while(temp!=NULL);
 
-}
+    void btree::print_list(ListNode *leaf){
+      if(leaf==NULL){//mipos einai listnode anti gia treenode
+        return;//list node 8elw na einai
+      }else{
+        cout << leaf->content<< endl;
+        print_list(leaf->next);
+      }
+    }
+
   void btree::print_list(){
-    print_list(treeroot);
+    print_list(treeroot->headref);
   }
 
-  /* Function to merge given two binary trees*/
-TreeNode *btree::MergeTrees(TreeNode * t1, TreeNode * t2)
-{
-  if(t2 != NULL){
-    if(t2->left!=NULL)
-    insert(t2->left->creator,t2->left->headref->content,t1);//inorder_print(leaf->left);
-    cout << "WTF IT WORKS "<< endl;
-    if(t2->right!=NULL)
-    insert(t2->right->creator,t2->right->headref->content,t1);//inorder_print(leaf->right);
+ TreeNode *btree::get_treeroot(){
+    return treeroot;
   }
-return t1;
-}
+
+  string btree::get_creator(){
+    return treeroot->creator;
+  }
+
+  string btree::get_content(){
+    return treeroot->headref->content;
+  }

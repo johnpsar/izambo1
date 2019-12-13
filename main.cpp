@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
     srand(time(NULL));
-
+    string temp_creat,temp_cont;
     int rand_num = rand();
     int i,j,number_of_threads=2,number_of_posts;
     Forum forum1("Αντικειμενοστραφής Προγραμματισμός", number_of_threads);
@@ -27,16 +27,27 @@ int main() {
   //  for(i=0;i<number_of_threads;i++){
     btree *tree1=new btree();
     btree *tree2=new btree();
-      number_of_posts=forum1.thread_array[1]->post_count;
-      for (j=0;j<number_of_posts;j++){
-        tree1->insert((forum1.thread_array[0]->post_array[j]->post_creator),(forum1.thread_array[0]->post_array[j]->post_content));
-        tree2->insert((forum1.thread_array[1]->post_array[j]->post_creator),(forum1.thread_array[1]->post_array[j]->post_content));
+    number_of_posts=forum1.thread_array[1]->post_count;
+    cout <<  "SKRT:" << number_of_posts << endl;
+      tree1->insert("LMAO1","NOP1");
+      tree1->insert("LMAO2","NOP2");
+      tree1->insert("LMAO3","NOP3");
+      //tree1->insert((forum1.thread_array[1]->post_array[0]->post_creator),(forum1.thread_array[1]->post_array[0]->post_content));//2
+      //tree1->print_list();
 
-        tree1->print_list();//TODO lathos simeio
-        tree2->print_list();
-      }
-      tree1=tree1->MergeTrees(*tree1,*tree2);
+
+    // for (j=0;j<number_of_posts;j++){
+      //   //tree2->insert((forum1.thread_array[1]->post_array[j]->post_creator),(forum1.thread_array[1]->post_array[j]->post_content));
+      // }
+      // cout<< "THIS IS TREE1\n";
+      // tree1->print_list();//TODO lathos simeio
+      // cout<<"THIS IS TREE2\n";
+      // tree2->print_list();
+      //tree1->tree_enhance(tree2->get_treeroot(),1);
+      cout<<"tree1 inorder"<<endl;
       tree1->inorder_print();
-    //}
+      //cout<<"tree2 inorder"<<endl;
+      //tree2->inorder_print();
+
 
     }

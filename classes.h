@@ -19,21 +19,25 @@ typedef struct TreeNode{
 public:
     btree();
     ~btree();
-    TreeNode *MergeTrees(TreeNode * , TreeNode * ); 
-
+    //  void tree_enhance();
+    void tree_enhance(TreeNode* ,int);
+    TreeNode *get_treeroot();
     void insert_list(TreeNode *,string);
     void insert(string,string);
-    TreeNode *search (string);
     void destroy_tree();
     void inorder_print();
     void print_list();
+    string get_creator();
+    string get_content();
   private:
-    void print_list(TreeNode*);
-    TreeNode *search(string,TreeNode *leaf);
+
+    TreeNode *treeroot;
+    //void tree_enhance(TreeNode btree);
+    void print_list(ListNode*);
     void insert(string,string,TreeNode *leaf);
     void inorder_print(TreeNode *leaf);
     void destroy_tree(TreeNode *leaf);
-    TreeNode *treeroot;
+  //TreeNode *treeroot;
   };
 
 
@@ -69,6 +73,7 @@ private:
 
 class Thread {
 public:
+
     Thread(string, string, int, int);
     Thread();
     ~Thread();
